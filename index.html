@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Verificando Dashboard...</title>
+  <style>
+    body {
+      background-color: #2C3E50;
+      color: white;
+      font-family: 'Roboto', sans-serif;
+      text-align: center;
+      padding-top: 20vh;
+    }
+    .spinner {
+      margin-top: 40px;
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>⏳ Carregando o Dashboard...</h1>
+  <p>Estamos verificando se o sistema já está disponível.</p>
+  <div class="spinner"></div>
+
+  <script>
+    const destino = "https://dashboard-qa2.onrender.com/; // URL real do dashboard
+
+    async function verificarDisponibilidade() {
+      try {
+        const response = await fetch(destino, { mode: "no-cors" });
+
+        // Se não der erro, tenta redirecionar
+        window.location.href = destino;
+      } catch (err) {
+        console.log("Ainda fora do ar...");
+      }
+
+      // Tenta novamente em 5 segundos
+      setTimeout(verificarDisponibilidade, 5000);
+    }
+
+    verificarDisponibilidade();
+  </script>
+</body>
+</html>

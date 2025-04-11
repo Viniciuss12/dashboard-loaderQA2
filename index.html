@@ -34,24 +34,23 @@
   <div class="spinner"></div>
 
   <script>
-    const destino = "https://dashboard-qa2.onrender.com"; // Altere conforme o dashboard
+    const destino = "https://dashboard-qa2.onrender.com"; // URL do dashboard
 
-    async function verificarDisponibilidade() {
-      try {
-        const response = await fetch(destino, { method: "HEAD", mode: "cors" });
-        if (response.ok) {
-          window.location.href = destino;
-        } else {
-          console.log("Ainda fora do ar... Status:", response.status);
-        }
-      } catch (err) {
-        console.log("Ainda fora do ar... Erro:", err.message);
-      }
+    function verificarComImagem() {
+      const img = new Image();
+      img.src = `${destino}/favicon.ico?cacheBust=` + new Date().getTime(); // Força novo carregamento
 
-      setTimeout(verificarDisponibilidade, 5000); // tenta de novo em 5 segundos
+      img.onload = function() {
+        window.location.href = destino;
+      };
+
+      img.onerror = function() {
+        console.log("Dashboard ainda fora do ar...");
+        setTimeout(verificarComImagem, 5000); // Tenta novamente em 5 segundos
+      };
     }
 
-    verificarDisponibilidade();
+    verificarComImagem();
   </script>
 </body>
 </html>

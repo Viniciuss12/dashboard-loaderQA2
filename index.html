@@ -34,20 +34,21 @@
   <div class="spinner"></div>
 
   <script>
-    const destino = "https://dashboard-qa2.onrender.com"; // URL real do dashboard
+    const destino = "https://dashboard-qa2.onrender.com"; // Altere conforme o dashboard
 
     async function verificarDisponibilidade() {
       try {
-        const response = await fetch(destino, { mode: "no-cors" });
-
-        // Se não der erro, tenta redirecionar
-        window.location.href = destino;
+        const response = await fetch(destino, { method: "HEAD", mode: "cors" });
+        if (response.ok) {
+          window.location.href = destino;
+        } else {
+          console.log("Ainda fora do ar... Status:", response.status);
+        }
       } catch (err) {
-        console.log("Ainda fora do ar...");
+        console.log("Ainda fora do ar... Erro:", err.message);
       }
 
-      // Tenta novamente em 5 segundos
-      setTimeout(verificarDisponibilidade, 5000);
+      setTimeout(verificarDisponibilidade, 5000); // tenta de novo em 5 segundos
     }
 
     verificarDisponibilidade();
